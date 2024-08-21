@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="8">
+
+    <ImageButton
+        android:id="@+id/backButtonStock"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:src="@drawable/arrow_left"
+        android:contentDescription="Back Button"
+        android:backgroundTint="@android:color/transparent"
+        android:background="@color/white"/>
+
+    <TextView
+        android:id="@+id/stockTitle"
+        android:layout_width="0dp"
+        android:layout_weight="6"
+        android:layout_height="match_parent"
+        android:text="AAPL"
+        android:textSize="23dp"
+        android:textColor="@color/black"
+        android:gravity="center_vertical"/>
+
+    <ImageButton
+        android:id="@+id/favoriteButton"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:src="@drawable/star_outline"
+        android:contentDescription="Favorite Button"
+        android:backgroundTint="@android:color/transparent"
+        app:tint="@color/red"/>
+
+</LinearLayout>

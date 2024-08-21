@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta name="author" content="Aayush Kharwal">
+    <meta name="description" content="CSCI571 Assignment 3">
+    <meta name="keywords" content="HTML, CSS, JS, Highcharts">
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/stock.js"></script>
+    <!--    <script src="https://code.highcharts.com/stock/modules/drag-panes.js"></script>-->
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/stock/indicators/indicators.js"></script>
+    <script src="https://code.highcharts.com/stock/indicators/volume-by-price.js"></script>
+
+    <script type="text/javascript">
+
+        function drawEarningsChart(ticker="AAPL") {
+
+            fetch(`https://web-tech4-csci571.wl.r.appspot.com/search/${ticker}/stock_earnings`)
+                .then(response => response.json())
+                .then(data => {
+
+                    console.log("Earnings Chart data: ", data);
+                    Highcharts.stockChart('container', {
+                        chart: {
+                            type: 'spline'
+                        },
+
+                        accessibility: {
+                            enabled: false
+                        },
+
+                        title: {
+                        style: {
+                            fontSize: '20px'
+                         },
+                            text: 'Historical EPS Suprises',
+                            align: 'center'
+                        },
+
+
+                        xAxis: {
+                            crosshair: true,
+                            type: 'category',
+                            categories: data.xAxis,
+                            labels: {
+                                formatter: function() {
+                                    let xLabel = data.xAxis[this.value];
+                                    return `${xLabel.substring(0, xLabel.indexOf(' '))}<br/> ${xLabel.substring(xLabel.indexOf(' ') + 1)}`
+                                },
+                                rotation: -45,
+                            }
+                        },
+
+                        yAxis: {
+                            title: {
+                                text: 'Quarterly EPS'
+                            },
+                            opposite: false,
+                            lineWidth: 0,
+                            resize: {
+                                enabled: false
+                            }
+                        },
+
+                        scrollbar: {
+                            enabled: false
+                        },
+
+                        tooltip: {
+                            split: false,
+                            shared: true,
+                            headerFormat: '' //`<b>{data.xAxis[point.key]}</b><br/>`,
+                        },
+
+                        navigator: {
+                           enabled: false
+                        },
+
+                        legend: {
+                            enabled: true
+                        },
+
+                        rangeSelector: {
+                           enabled: false
+                        },
+
+                        exporting: {
+                            enabled: true
+                        },
+
+                        plotOptions: {
+                            spline: {
+                                marker: {
+                                    radius: 3
+                                }
+                            }
+                        },
+
+
+                        series: [
+                            {
+                                type: 'spline',
+                                name: 'Actual',
+                                marker: {
+                                    enabled: true,
+                                    symbol: 'circle'
+                                },
+                                data: data.yAxis.actual
+
+                            }, {
+                            type: 'spline',
+                            name: 'Estimate',
+                                marker: {
+                                    enabled: true,
+                                    symbol: 'diamond'
+                                },
+                                data: data.yAxis.estimate
+                            }
+                        ]
+                    });
+
+                })
+                .catch(error => {
+                    console.log("Earnings Chart Error: ", error)
+                });
+
+        }
+
+
+
+        function drawPriceChart(ticker="AAPL", changeColor="green") {
+
+            fetch(`https://web-tech4-csci571.wl.r.appspot.com/search/${ticker}/stock_charts`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Price Chart data: ", data);
+                    Highcharts.stockChart('container', {
+                        accessibility: {
+                            enabled: false
+                        },
+
+                        legend: {
+                            enabled: false
+                        },
+
+                        plotOptions: {
+                            line: {
+                                marker: {
+                                    enabled: false
+                                }
+                            }
+                        },
+
+                        scrollbar: {
+                            enabled: false
+                        },
+
+                        title: {
+                            text: `${ticker} Hourly Price Variation`,
+
+                        },
+
+                        exporting: {
+                            enabled: false
+                        },
+
+                        xAxis: {
+                            type: 'datetime'
+                        },
+
+                        yAxis: {
+                            labels: {
+                                align: 'left',
+                            },
+                            title: {
+                                text: ''
+                            },
+                            opposite: true,
+                            lineWidth: 0,
+                            resize: {
+                                enabled: false
+                            }
+                        },
+
+                        tooltip: {
+                            split: true
+                        },
+
+                        navigator: {
+                            enabled: false
+                        },
+
+                        rangeSelector: {
+                            enabled: false
+                        },
+
+                        series: [
+                            {
+                                label: {
+                                    enabled: false,
+                                },
+                                type: 'line',
+                                name: ticker,
+                                data: data,
+                                yAxis: 0,
+                                threshold: null,
+                                tooltip: {
+                                    valueDecimals: 2
+                                },
+                                color: changeColor
+                            }
+                        ]
+
+                    })
+
+                })
+                .catch(error => {
+                    console.log("Price Chart Error: ", error)
+                });
+
+            }
+
+
+        function drawRecommendationChart(ticker="AAPL") {
+
+            fetch(`https://web-tech4-csci571.wl.r.appspot.com/search/${ticker}/stock_recommendation`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Recommendation Chart data: ", data);
+                    Highcharts.stockChart('container', {
+                        accessibility: {
+                            enabled: false
+                        },
+
+                        chart: {
+                            type: 'column'
+                        },
+
+                        yAxis: {
+                            title: {
+                                text: '#Analysis'
+                            },
+                            stackLabels: {
+                                enabled: true
+                            },
+                            opposite: false,
+                            lineWidth: 0,
+                            resize: {
+                                enabled: false
+                            }
+                        },
+
+                        title: {
+                         style: {
+                            fontSize: '20px'
+                         },
+                            text: 'Recommendation Trends',
+                            align: 'center'
+                        },
+
+
+
+                        exporting: {
+                            enabled: true
+                        },
+
+                        plotOptions: {
+                            column: {
+                                stacking: 'normal',
+                                dataLabels: {
+                                    enabled: false
+                                }
+                            }
+                        },
+
+
+                        xAxis: {
+                            categories: data.xAxis,
+                            type: 'category',
+                            labels: {
+                                formatter: function() {
+                                    return data.xAxis[this.value]
+                                }
+                            }
+                        },
+
+                        tooltip: {
+                            split: false,
+                            shared: false,
+                            headerFormat: '', //`<b>${data.xAxis}</b><br/>`,
+                            pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+                        },
+
+                        navigator: {
+                            enabled: false
+                        },
+
+                        legend: {
+                            enabled: true,
+                            backgroundColor: 'white',
+                            borderColor: '#CCC',
+                            borderWidth: 1,
+                            shadow: false,
+                            verticalAlign: 'bottom',
+                            align:'center',
+                        },
+
+                        rangeSelector: {
+                            enabled: false
+                        },
+
+                        scrollbar: {
+                            enabled: false
+                        },
+
+                        series: [{
+                                name: 'Strong Buy',
+                                data: data.yAxis.strongBuy,
+                                type:'column',
+                                color: '#008000'
+                            }, {
+                                name: 'Buy',
+                                data: data.yAxis.buy,
+                                type:'column',
+                                color: '#04af70'
+                            }, {
+                                name: 'Hold',
+                                data: data.yAxis.hold,
+                                type:'column',
+                                color: '#a68004'
+                            },
+                            {
+                                name: 'Sell',
+                                data: data.yAxis.sell,
+                                type:'column',
+                                color: '#f28500'
+                            },
+                            {
+                            name: 'Strong Sell',
+                            data: data.yAxis.strongSell,
+                            type:'column',
+                            color: '#800080'
+                        }]
+                    })
+                })
+                .catch(error => {
+                    console.log("Recommendation Chart Error: ", error)
+                });
+
+        }
+
+        function drawSMAChart(ticker="AAPL") {
+
+            fetch(`https://web-tech4-csci571.wl.r.appspot.com/search/${ticker}/sma_charts`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("SMA Chart data: ", data);
+                    Highcharts.stockChart('container', {
+                        accessibility: {
+                            enabled: false
+                        },
+
+                        legend: {
+                            enabled: false
+                        },
+
+                        exporting: {
+                            enabled: false
+                        },
+
+                        rangeSelector: {
+                            enabled: true,
+                            inputEnabled: true,
+                            allButtonsEnabled: true,
+                            selected: 2,
+                            buttons: [
+                                {
+                                    type: 'month',
+                                    count: 1,
+                                    text: '1m',
+                                    title: 'View 1 month'
+                                }, {
+                                    type: 'month',
+                                    count: 3,
+                                    text: '3m',
+                                    title: 'View 3 months'
+                                }, {
+                                    type: 'month',
+                                    count: 6,
+                                    text: '6m',
+                                    title: 'View 6 months'
+                                }, {
+                                    type: 'ytd',
+                                    text: 'YTD',
+                                    title: 'View year to date'
+                                }, {
+                                    type: 'year',
+                                    count: 1,
+                                    text: '1y',
+                                    title: 'View 1 year'
+                                }, {
+                                    type: 'all',
+                                    text: 'All',
+                                    title: 'View all'
+                                }
+                            ]
+                        },
+
+                        title: {
+                            text: `${ticker} Historical`
+                        },
+
+                        subtitle: {
+                            text: 'With SMA and Volume by Price technical indicators'
+                        },
+
+                        navigator: {
+                            enabled: true,
+                            series: {
+                                label: {
+                                    enabled: false
+                                }
+                            }
+                        },
+
+                        xAxis: {
+                            type: 'datetime'
+                        },
+
+                        yAxis: [{
+                            opposite: true,
+                            startOnTick: false,
+                            endOnTick: false,
+                            labels: {
+                                align: 'right',
+                                x: -3
+                            },
+                            title: {
+                                text: 'OHLC'
+                            },
+                            height: '60%',
+                            lineWidth: 2,
+                            resize: {
+                                enabled: true
+                            }
+                        }, {
+                            opposite: true,
+                            labels: {
+                                align: 'right',
+                                x: -3
+                            },
+                            title: {
+                                text: 'Volume'
+                            },
+                            top: '65%',
+                            height: '35%',
+                            offset: 0,
+                            lineWidth: 2
+                        }],
+
+                        tooltip: {
+                            split: true
+                        },
+
+                        plotOptions: {
+                            series: {
+                                dataGrouping: {
+                                    units: [[
+                                        'week',                         // unit name
+                                        [2]                             // allowed multiples
+                                    ], [
+                                        'month',
+                                        [1, 2, 3, 4, 6]
+                                    ]]
+                                }
+                            }
+                        },
+
+                        series: [{
+                            label: {
+                                enabled: false,
+                            },
+                            type: 'candlestick',
+                            name: ticker,
+                            id: ticker,
+                            zIndex: 2,
+                            data: data['ohlc']
+                        }, {
+                            label: {
+                                enabled: false,
+                            },
+                            type: 'column',
+                            name: 'Volume',
+                            id: 'volume',
+                            data: data['volume'],
+                            yAxis: 1
+                        }, {
+                            label: {
+                                enabled: false,
+                            },
+                            type: 'vbp',
+                            linkedTo: ticker,
+                            params: {
+                                volumeSeriesID: 'volume'
+                            },
+                            dataLabels: {
+                                enabled: false
+                            },
+                            zoneLines: {
+                                enabled: false
+                            }
+                        }, {
+                            label: {
+                                enabled: false,
+                            },
+                            type: 'sma',
+                            linkedTo: ticker,
+                            zIndex: 1,
+                            marker: {
+                                enabled: false
+                            }
+                        }]
+                    })
+                })
+                .catch(error => {
+                    console.log("SMA Chart Error: ", error)
+                });
+
+        }
+
+
+
+    </script>
+
+
+
+</head>
+
+<body>
+
+<div id="container"
+     style = "min-width: 360px;
+                        max-width: 720px;">
+    <!-- <script type="text/javascript">
+        drawEarningsChart()
+    </script> -->
+</div>
+
+</body>
+</html>

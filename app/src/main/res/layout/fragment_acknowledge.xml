@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".TransactionFragment"
+    android:backgroundTint="@color/green"
+    android:layout_width="390dp"
+    android:layout_height="240dp"
+    app:cardElevation="20dp"
+    app:cardCornerRadius="25dp"
+    android:layout_margin="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:paddingVertical="25dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="24dp"
+                android:textColor="@color/white"
+                android:text="Congratulations!"/>
+
+            <TextView
+                android:id="@+id/acknowledgeInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="14dp"
+                android:layout_marginVertical="5dp"
+                android:layout_marginHorizontal="100dp"
+                android:textColor="@color/white"
+                android:text="You have successfully bought 10 shares of NVDA" />
+
+            <Button
+                style="@style/Widget.MaterialComponents.Button"
+                android:id="@+id/acknowledgeDone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginHorizontal="60dp"
+                android:backgroundTint="@color/white"
+                app:cornerRadius="10dp"
+                android:text="DONE"
+                android:textColor="@color/green"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+</androidx.cardview.widget.CardView>

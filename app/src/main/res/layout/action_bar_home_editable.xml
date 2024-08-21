@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="8"
+    android:background="@color/white">
+
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:src="@drawable/arrow_left"
+        android:contentDescription="Back Button"
+        android:backgroundTint="@android:color/transparent"/>
+
+    <AutoCompleteTextView
+        android:id="@+id/searchInput"
+        android:layout_width="0dp"
+        android:layout_weight="6"
+        android:layout_height="match_parent"
+        android:hint="Search..."
+        android:textColorHint="@color/darkGrey"
+        android:textSize="23dp"
+        android:completionThreshold="1"
+        android:inputType="textCapCharacters"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:popupBackground="@color/white"/>
+
+    <ImageButton
+        android:id="@+id/clearButton"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:src="@drawable/close"
+        android:contentDescription="Clear Button"
+        android:backgroundTint="@android:color/transparent"
+        android:visibility="gone"/>
+
+</LinearLayout>

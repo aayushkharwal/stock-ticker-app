@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/homeImageFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.tickerappxml.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_stockInfoFragment"
+            app:destination="@id/stockInfoFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/stockInfoFragment"
+        android:name="com.example.tickerappxml.StockInfoFragment"
+        android:label="fragment_stock_info"
+        tools:layout="@layout/fragment_stock_info" >
+        <action
+            android:id="@+id/action_stockInfoFragment_self"
+            app:destination="@id/stockInfoFragment" />
+        <action
+            android:id="@+id/action_stockInfoFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeImageFragment"
+        android:name="com.example.tickerappxml.HomeImageFragment"
+        android:label="fragment_home_image"
+        tools:layout="@layout/fragment_home_image" >
+        <action
+            android:id="@+id/action_homeImageFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeImageFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>
